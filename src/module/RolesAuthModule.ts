@@ -1,6 +1,7 @@
 // tslint:disable:max-classes-per-file
 
 import ow from "ow";
+import { CombinedVueInstance } from "vue/types/vue";
 import { Action as VuexAction, ActionContext as VuexActionContext, Dispatch } from "vuex";
 
 import { Account } from "../Account";
@@ -88,6 +89,13 @@ export namespace RolesAuthModule {
                 return dispatchFn(name, role);
             }
         }
+    }
+
+    /**
+     * State tye guard
+     */
+    export function stateOf(vueInstance: CombinedVueInstance<any, any, any, any, any>): State {
+        return vueInstance.$store.state[modulePathName];
     }
 
     /**
