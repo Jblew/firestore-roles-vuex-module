@@ -166,10 +166,10 @@ export default Vue.extend({
             return RolesAuthModule.stateOf(this).account;
         },
         photoUrl(): string {
-            return this.account ? this.account.photoUrl : "";
+            return this.account ? this.account.photoUrl || "" : "";
         },
         name(): string {
-            return this.account ? this.account.displayName : "";
+            return this.account ? this.account.displayName || "" : "";
         },
         isAdmin(): boolean {
             // will be undefined until you call RolesAuthModule.Actions.CheckRole.dispatch(this.$store.dispatch, "admin");
