@@ -1,11 +1,14 @@
-// tslint:disable no-console max-classes-per-file
+// tslint:disable max-classes-per-file
 import * as firebase from "firebase";
+import * as _ from "lodash";
+import ow from "ow";
 import { ActionTree, Commit, Dispatch } from "vuex";
 
 import { Account } from "../Account";
 import { AuthAdapter } from "../adapter/AuthAdapter";
 import { RolesAdapter } from "../adapter/RolesAdapter";
 import { Configuration } from "../Configuration";
+import { d } from "../util";
 
 import { AuthModule as Me } from "./AuthModule";
 import { Mutations } from "./Mutations";
@@ -16,9 +19,11 @@ import { PrivateActions } from "./PrivateActions";
  * Initialize
  */
 class Initialize implements Me.Actions.Initialize.Implementator {
+    private config: Configuration;
     private authAdapter: AuthAdapter;
 
-    public constructor(authAdapter: AuthAdapter) {
+    public constructor(config: Configuration, authAdapter: AuthAdapter) {
+        this.config = config;
         this.authAdapter = authAdapter;
     }
 
@@ -27,7 +32,7 @@ class Initialize implements Me.Actions.Initialize.Implementator {
             this.authAdapter.initialize({
                 onAuthenticated: (user: firebase.UserInfo) => this.onAuthenticated(commit, dispatch, user),
                 onNotAuthenticated: () => this.onNotAuthenticated(commit),
-                onError: (msg: string) => this.onError(commit, dispatch, msg),
+                onError: (msg: string) => this.onError(commit, msg),
             });
         };
     }
@@ -38,15 +43,20 @@ class Initialize implements Me.Actions.Initialize.Implementator {
         Mutations.SetState.commit(commit, { state: Me.AuthState.AUTHENTICATED });
 
         PrivateActions.EnsureAccountRegistered.dispatch(dispatch, account);
+
+        this.config.callbacks.onAuthenticated(account);
     }
 
     private onNotAuthenticated(commit: Commit) {
-        console.log("User not authenticated");
         Mutations.SetState.commit(commit, { state: Me.AuthState.NOTAUTHENTICATED });
+
+        this.config.callbacks.onNotAuthenticated();
     }
 
-    private onError(commit: Commit, dispatch: Dispatch, errorMsg: string) {
+    private onError(commit: Commit, errorMsg: string) {
         Mutations.SetState.commit(commit, { state: Me.AuthState.NOTAUTHENTICATED });
+
+        this.config.callbacks.onError(errorMsg);
     }
 }
 /**
@@ -76,6 +86,43 @@ class Logout implements Me.Actions.Logout.Implementator {
 
 /**
  *
+ * CheckRoles
+ */
+class CheckRole implements Me.Actions.CheckRole.Implementator {
+    private rolesAdapter: RolesAdapter;
+    private config: Configuration;
+
+    public constructor(config: Configuration, rolesAdapter: RolesAdapter) {
+        this.config = config;
+        this.rolesAdapter = rolesAdapter;
+    }
+
+    public getAction(): Me.Actions.CheckRole.Declaration {
+        return ({ commit, state }, role: string) => {
+            (async () => {
+                try {
+                    this.validateInput(role, state.account);
+                    const hasRole = await this.doCheckRole(d(state.account).uid, role);
+                    Mutations.SetRole.commit(commit, { role, hasRole });
+                } catch (error) {
+                    this.config.callbacks.onError(`Could not ensure user is registered: ${error.message}`);
+                }
+            })();
+        };
+    }
+
+    private async doCheckRole(uid: string, role: string): Promise<boolean> {
+        return await this.rolesAdapter.hasRole(uid, role);
+    }
+
+    private validateInput(role: string, account: object | undefined) {
+        ow(role, "role", ow.string.oneOf(_.keys(this.config.roles.roles)));
+        if (!account) throw new Error("Cannot get role before authentication");
+    }
+}
+
+/**
+ *
  * EnsureAccountRegistered
  */
 class EnsureAccountRegistered implements PrivateActions.EnsureAccountRegistered.Implementator {
@@ -88,12 +135,11 @@ class EnsureAccountRegistered implements PrivateActions.EnsureAccountRegistered.
     }
 
     public getAction(): PrivateActions.EnsureAccountRegistered.Declaration {
-        return ({ dispatch }, user: Account) => {
+        return ({}, user: Account) => {
             (async () => {
                 try {
                     await this.doEnsureRegistered(user);
                 } catch (error) {
-                    console.error(error);
                     this.config.callbacks.onError(`Could not ensure user is registered: ${error.message}`);
                 }
             })();
@@ -121,8 +167,9 @@ export function constructActions(
     const authAdapter = new AuthAdapter(auth);
 
     return {
-        [Me.Actions.Initialize.name]: new Initialize(authAdapter).getAction(),
+        [Me.Actions.Initialize.name]: new Initialize(config, authAdapter).getAction(),
         [Me.Actions.Logout.name]: new Logout(authAdapter).getAction(),
+        [Me.Actions.CheckRole.name]: new CheckRole(config, rolesAdapter).getAction(),
         [PrivateActions.EnsureAccountRegistered.name]: new EnsureAccountRegistered(config, rolesAdapter).getAction(),
     };
 }

@@ -30,6 +30,10 @@ export class RolesAdapter {
         return await this.firestoreRoles.registerUser(account);
     }
 
+    public async hasRole(uid: string, role: string) {
+        return await this.firestoreRoles.hasRole(uid, role);
+    }
+
     public async getUidsInRole(role: string) {
         return await this.firestoreRoles.getUidsInRole(role);
     }

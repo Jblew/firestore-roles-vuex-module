@@ -3,10 +3,8 @@ import { AuthModule as Me } from "./AuthModule";
 export function constructState(): Me.State {
     const state: Me.State = {
         state: Me.AuthState.LOADING,
-        profileImageURL: undefined,
-        username: undefined,
-        uid: "",
+        roles: {},
     };
-    Me.validateState(state);
+    Me.State.validate(state);
     return state;
 }

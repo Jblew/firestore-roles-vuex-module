@@ -30,10 +30,18 @@ export function constructMutations(): MutationTree<Me.State> {
         Me.State.validate(state);
     };
 
+    const setRole: Mutations.SetRole.Declaration = (state: Me.State, payload: { role: string; hasRole: boolean }) => {
+        ow(payload, "payload", ow.object);
+        ow(payload.role, "payload.role", ow.string);
+        state.roles = { ...state.roles, [payload.role]: payload.hasRole };
+        Me.State.validate(state);
+    };
+
     const mutations: MutationTree<Me.State> = {
         [Mutations.SetAccount.name]: setAccount,
         [Mutations.ResetUser.name]: resetUser,
         [Mutations.SetState.name]: setState,
+        [Mutations.SetRole.name]: setRole,
     };
 
     return mutations;
