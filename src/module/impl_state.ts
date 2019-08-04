@@ -1,4 +1,4 @@
-import { AuthModule as Me } from "./AuthModule";
+import { RolesAuthModule as Me } from "./RolesAuthModule";
 
 export function constructState(): Me.State {
     const state: Me.State = {

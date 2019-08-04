@@ -1,6 +1,6 @@
 import { GetterTree } from "vuex";
 
-import { AuthModule as Me } from "./AuthModule";
+import { RolesAuthModule as Me } from "./RolesAuthModule";
 
 export const getters: GetterTree<Me.State, Me.State> = {
     [Me.Getters.isAuthenticated]: (state: Me.State): boolean => state.state === Me.AuthState.AUTHENTICATED,

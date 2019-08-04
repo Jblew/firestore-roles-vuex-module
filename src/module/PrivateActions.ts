@@ -3,7 +3,7 @@ import { Action as VuexAction, ActionContext as VuexActionContext, Dispatch } fr
 
 import { Account } from "../Account";
 
-import { AuthModule as Me } from "./AuthModule";
+import { RolesAuthModule as Me } from "./RolesAuthModule";
 
 type ActionFn = VuexAction<Me.State, Me.State>;
 type ActionContext = VuexActionContext<Me.State, Me.State>;

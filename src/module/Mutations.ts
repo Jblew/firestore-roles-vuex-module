@@ -2,7 +2,7 @@ import { Commit, Mutation as VuexMutation } from "vuex";
 
 import { Account } from "../Account";
 
-import { AuthModule as Me } from "./AuthModule";
+import { RolesAuthModule as Me } from "./RolesAuthModule";
 
 type MutationFn = VuexMutation<Me.State>;
 

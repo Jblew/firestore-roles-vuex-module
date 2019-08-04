@@ -3,8 +3,8 @@ import { MutationTree } from "vuex";
 
 import { Account } from "../Account";
 
-import { AuthModule as Me } from "./AuthModule";
 import { Mutations } from "./Mutations";
+import { RolesAuthModule as Me } from "./RolesAuthModule";
 
 export function constructMutations(): MutationTree<Me.State> {
     const setAccount: Mutations.SetAccount.Declaration = (state: Me.State, payload: Account) => {

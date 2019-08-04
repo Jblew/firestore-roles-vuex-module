@@ -6,11 +6,11 @@ import { Action as VuexAction, ActionContext as VuexActionContext, Dispatch } fr
 import { Account } from "../Account";
 import { ow_catch } from "../util";
 
-type ActionFn = VuexAction<AuthModule.State, AuthModule.State>;
-type ActionContext = VuexActionContext<AuthModule.State, AuthModule.State>;
+type ActionFn = VuexAction<RolesAuthModule.State, RolesAuthModule.State>;
+type ActionContext = VuexActionContext<RolesAuthModule.State, RolesAuthModule.State>;
 
-export namespace AuthModule {
-    export const modulePathName = "auth";
+export namespace RolesAuthModule {
+    export const modulePathName = "roles_auth";
     export function localName(name: string) {
         return modulePathName + "_" + name;
     }

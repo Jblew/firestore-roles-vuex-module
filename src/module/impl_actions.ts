@@ -10,9 +10,9 @@ import { RolesAdapter } from "../adapter/RolesAdapter";
 import { Configuration } from "../Configuration";
 import { d } from "../util";
 
-import { AuthModule as Me } from "./AuthModule";
 import { Mutations } from "./Mutations";
 import { PrivateActions } from "./PrivateActions";
+import { RolesAuthModule as Me } from "./RolesAuthModule";
 
 /**
  *
