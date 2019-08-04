@@ -1,5 +1,5 @@
 // tslint:disable:ordered-imports
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 
 export class AuthAdapter {
     private auth: firebase.auth.Auth;

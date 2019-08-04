@@ -1,5 +1,5 @@
 // tslint:disable max-classes-per-file
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 import * as _ from "lodash";
 import ow from "ow";
 import { ActionTree, Commit, Dispatch } from "vuex";
