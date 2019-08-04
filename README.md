@@ -171,10 +171,17 @@ export default Vue.extend({
         name(): string {
             return this.account ? this.account.displayName : "";
         },
+        isAdmin(): boolean {
+            // will be undefined until you call RolesAuthModule.Actions.CheckRole.dispatch(this.$store.dispatch, "admin");
+            return RolesAuthModule.stateOf(this).roles.admin === true;
+        },
     },
     methods: {
         signOut() {
             RolesAuthModule.Actions.Logout.dispatch(this.$store.dispatch);
+        },
+        checkRole() {
+            RolesAuthModule.Actions.CheckRole.dispatch(this.$store.dispatch, "admin");
         },
     },
 });
