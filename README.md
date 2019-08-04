@@ -166,7 +166,7 @@ export default Vue.extend({
             return RolesAuthModule.stateOf(this).account;
         },
         photoUrl(): string {
-            return this.account ? this.account.photoUrl || "" : "";
+            return this.account ? this.account.photoURL || "" : "";
         },
         name(): string {
             return this.account ? this.account.displayName || "" : "";
