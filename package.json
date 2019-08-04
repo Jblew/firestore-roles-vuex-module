@@ -1,0 +1,51 @@
+{
+  "name": "firestore-roles-vuex-module",
+  "description": "Vuex module for auth using firebase auth and firestore-roles system",
+  "version": "0.0.0-development",
+  "scripts": {
+    "check": "if echo \"$(node --version)\" | grep -q \"$(cat .nvmrc)\"; then echo \"Node version correct\"; else echo \"Node version does not match that in .nvmrc\" && exit 1; fi",
+    "build:cleanbefore": "rm -rf dist",
+    "build:lint": "tslint -c tslint.json -p tsconfig.lint.json",
+    "build:node": "tsc",
+    "build": "npm run check && npm run build:cleanbefore && npm run build:node && npm run build:lint",
+    "lint-fix": "tslint --fix -c tslint.json -p tsconfig.lint.json",
+    "semantic-release": "semantic-release"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "/dist",
+    "package-lock.js"
+  ],
+  "dependencies": {
+    "firebase": "^6.3.4",
+    "firestore-roles": "^2.1.0",
+    "lodash": "^4.17.15",
+    "ow": "^0.13.2",
+    "vue": "^2.6.10",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.136",
+    "jblew-tslint-config": "^0.1.0",
+    "semantic-release": "^15.13.19",
+    "tslint": "^5.18.0",
+    "typescript": "^3.4.3"
+  },
+  "release": {
+    "branch": "master"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jblew/firestore-roles-vuex-module"
+  },
+  "keywords": [
+    "vue",
+    "vuex",
+    "notifications"
+  ],
+  "author": "Jędrzej Lewandowski <jedrzejblew@gmail.com> (https://jedrzej.lewandowski.doctor/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jblew/firestore-roles-vuex-module/issues"
+  }
+}
