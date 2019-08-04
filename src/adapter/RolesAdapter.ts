@@ -5,7 +5,7 @@ import * as _ from "lodash";
 import { Account } from "../Account";
 import { Configuration } from "../Configuration";
 
-export class FirestoreRolesAdapter {
+export class RolesAdapter {
     private firestoreRoles: FirestoreRoles;
     private availableRoles: string[];
 
