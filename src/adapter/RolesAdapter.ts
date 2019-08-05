@@ -34,6 +34,10 @@ export class RolesAdapter {
         return await this.firestoreRoles.hasRole(uid, role);
     }
 
+    public async isRoleRequestedByUser(uid: string, role: string) {
+        return await this.firestoreRoles.isRoleRequestedByUser(uid, role);
+    }
+
     public async getUidsInRole(role: string) {
         return await this.firestoreRoles.getUidsInRole(role);
     }

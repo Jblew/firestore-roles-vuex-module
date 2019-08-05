@@ -26,6 +26,9 @@ export namespace RolesAuthModule {
         roles: {
             [roleName: string]: boolean;
         };
+        roleRequests: {
+            [roleName: string]: boolean;
+        };
     }
     export namespace State {
         export function validate(state: State) {
@@ -42,6 +45,7 @@ export namespace RolesAuthModule {
             );
 
             ow(state.roles, "state.roles", ow.object.valuesOfType(ow.boolean));
+            ow(state.roleRequests, "state.roleRequests", ow.object.valuesOfType(ow.boolean));
         }
     }
 

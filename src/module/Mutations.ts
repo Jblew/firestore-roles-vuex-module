@@ -54,4 +54,18 @@ export namespace Mutations {
             return commitFn(name, payload);
         }
     }
+
+    export namespace SetRoleRequest {
+        export const name = Me.localName("setRoleRequest");
+
+        export interface Payload {
+            role: string;
+            isRequestingRole: boolean;
+        }
+        export type Declaration = MutationFn & ((state: Me.State, payload: Payload) => void);
+
+        export function commit(commitFn: Commit, payload: Payload) {
+            return commitFn(name, payload);
+        }
+    }
 }

@@ -59,6 +59,7 @@ class Initialize implements Me.Actions.Initialize.Implementator {
         this.config.callbacks.onError(errorMsg);
     }
 }
+
 /**
  *
  * Logout
@@ -102,8 +103,14 @@ class CheckRole implements Me.Actions.CheckRole.Implementator {
             (async () => {
                 try {
                     this.validateInput(role, state.account);
+
                     const hasRole = await this.doCheckRole(d(state.account).uid, role);
                     Mutations.SetRole.commit(commit, { role, hasRole });
+
+                    if (!hasRole) {
+                        const isRequestingRole = await this.doCheckRoleRequest(d(state.account).uid, role);
+                        Mutations.SetRoleRequest.commit(commit, { role, isRequestingRole });
+                    }
                 } catch (error) {
                     this.config.callbacks.onError(`Could not ensure user is registered: ${error.message}`);
                 }
@@ -113,6 +120,10 @@ class CheckRole implements Me.Actions.CheckRole.Implementator {
 
     private async doCheckRole(uid: string, role: string): Promise<boolean> {
         return await this.rolesAdapter.hasRole(uid, role);
+    }
+
+    private async doCheckRoleRequest(uid: string, role: string): Promise<boolean> {
+        return await this.rolesAdapter.isRoleRequestedByUser(uid, role);
     }
 
     private validateInput(role: string, account: object | undefined) {
