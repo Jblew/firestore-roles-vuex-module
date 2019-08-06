@@ -1,6 +1,10 @@
 # Firestore-roles Vuex module
 
-Vuex module for auth using firebase auth and firestore-roles system
+[![npm](https://img.shields.io/npm/v/firestore-roles-vuex-module.svg?style=flat-square)](https://www.npmjs.com/package/firestore-roles-vuex-module) [![build](https://travis-ci.com/Jblew/firestore-roles-vuex-module.svg?branch=master)](https://travis-ci.com/Jblew/firestore-roles-vuex-module) [![License](https://img.shields.io/github/license/Jblew/firestore-roles-vuex-module.svg?style=flat-square)](https://github.com/Jblew/firestore-roles-vuex-module/blob/master/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+Vuex module for auth using firebase auth and firestore-roles system.
+
+**Companion to [firestore-roles](https://github.com/jblew/firestore-roles) system.**
 
 ## Usage
 
