@@ -8,7 +8,6 @@ import { Account } from "../Account";
 import { AuthAdapter } from "../adapter/AuthAdapter";
 import { RolesAdapter } from "../adapter/RolesAdapter";
 import { Configuration } from "../Configuration";
-import { d } from "../util";
 
 import { Mutations } from "./Mutations";
 import { PrivateActions } from "./PrivateActions";
@@ -104,11 +103,11 @@ class CheckRole implements Me.Actions.CheckRole.Implementator {
                 try {
                     this.validateInput(role, state.account);
 
-                    const hasRole = await this.doCheckRole(d(state.account).uid, role);
+                    const hasRole = await this.doCheckRole(state.account!.uid, role);
                     Mutations.SetRole.commit(commit, { role, hasRole });
 
                     if (!hasRole) {
-                        const isRequestingRole = await this.doCheckRoleRequest(d(state.account).uid, role);
+                        const isRequestingRole = await this.doCheckRoleRequest(state.account!.uid, role);
                         Mutations.SetRoleRequest.commit(commit, { role, isRequestingRole });
                     }
                 } catch (error) {
