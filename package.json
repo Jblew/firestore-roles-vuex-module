@@ -17,8 +17,8 @@
     "package-lock.js"
   ],
   "dependencies": {
-    "firebase": "^6.3.4",
-    "firestore-roles": "^2.1.1",
+    "firebase": "^6.3.5",
+    "firestore-roles": "^2.2.0",
     "lodash": "^4.17.15",
     "ow": "^0.13.2",
     "vue": "^2.6.10",
