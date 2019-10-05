@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "firebase": "^6.3.5",
-    "firestore-roles": "^2.2.0",
+    "firestore-roles": "^2.3.2",
     "lodash": "^4.17.15",
     "ow": "^0.13.2",
     "vue": "^2.6.10",
